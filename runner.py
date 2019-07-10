@@ -16,10 +16,13 @@ print('RUN Nmap search...')
 p = subprocess.Popen(["nmap", "-T4", "-A", "-v", "-sV", "-oX", "-", url], stdout=subprocess.PIPE,
                      stderr=subprocess.STDOUT)
 stdout, stderr = p.communicate()
-print(stdout)
-print(stderr)
+# print(stdout)
+# print(stderr)
 with open('output.xml', 'w') as file:
     file.write(stdout)
 
+print('Scanning...')
 res = parsers.nmap_xml_parse('output.xml', 10000, 'xml')
+print('--------')
+print('Result:')
 print(res)

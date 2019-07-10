@@ -45,12 +45,11 @@ def txtoutput(r, port, cpe, limit, host):
 
 
 def xmloutput(r, port, cpe, limit, host):
-    print "\n<vision>\n\t<host>"+host+"</host>\n\t<port>"+port+"</port>\n"
-    print "\t<cpe>"+cpe+"</cpe>\n"
+    # print "\n<vision>\n\t<host>"+host+"</host>\n\t<port>"+port+"</port>\n"
+    # print "\t<cpe>"+cpe+"</cpe>\n"
     counter = 2
     check_table = 0
-    cve = ""
-    cve_url = ""
+    cve_arr = []
 # SAX parse Style
     for line2 in r.iter_lines():
         if line2 and limit != 0:
@@ -61,22 +60,24 @@ def xmloutput(r, port, cpe, limit, host):
                 if "href=\"/vuln/detail/" in line2:
                     cve = line2.split('"')
                     cve_url = "https://nvd.nist.gov"+cve[1]
-                    print "\t<cve> "+cve_url+"</cve>"
+                    cve_arr.append(
+                        {"cve": cve[1].split("/")[3], "url": cve_url})
+                    # print "\t<cve> "+cve_url+"</cve>"
                     counter -= 1
                 if "data-testid='vuln-summary-" in line2:
                     desc_parse = line2.split('>')
                     description = desc_parse[1][:-3]
-                    print "\t<description> "+description+"</description>\n"
+                    # print "\t<description> "+description+"</description>\n"
                     counter -= 1
                 if counter == 0:
                     limit -= 1
                     counter = 2
                 if "pagination\-nav\-container" in line2:
-                    print "</vision>"
+                    # print "</vision>"
                     return
 
-    print "</vision>"
-    return "" if cve == "" else cve[1], cve_url
+    # print "</vision>"
+    return cve_arr
 
 
 def nmap_xml_parse(file_input, limit, type_output):
@@ -104,14 +105,14 @@ def nmap_xml_parse(file_input, limit, type_output):
                             if type_output == "txt" and counter == 1:
                                 txtoutput(r, current_port, cpe, limit, host)
                                 result.append(
-                                    {"port": current_port, "cpe": cpe, "host": host, "cve": res[0], "url": res[1]})
+                                    {"port": current_port, "cpe": cpe, "host": host})
                                 counter = 0
 
                             if type_output == "xml" and counter == 1:
                                 res = xmloutput(
                                     r, current_port, cpe, limit, host)
                                 result.append(
-                                    {"port": current_port, "cpe": cpe, "host": host, "cve": res[0], "url": res[1]})
+                                    {"port": current_port, "cpe": cpe, "host": host, "cve": res})
                                 counter = 0
 
                         else:
