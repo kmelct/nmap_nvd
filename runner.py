@@ -1,6 +1,7 @@
 import sys
 import subprocess
 import os
+import json
 from parse import parsers
 
 if len(sys.argv) < 2:
@@ -25,4 +26,4 @@ print('Scanning...')
 res = parsers.nmap_xml_parse('output.xml', 10000, 'xml')
 print('--------')
 print('Result:')
-print(res)
+print(json.dumps(res))
