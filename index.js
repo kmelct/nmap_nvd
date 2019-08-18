@@ -1,4 +1,4 @@
-const { parseNvdPage } = require("./src");
+const { parseNvdPage, nmapScan } = require("./src");
 
 // Use domain
 const domain = process.argv[2];
@@ -6,6 +6,7 @@ const domain = process.argv[2];
 // TODO: Use nmap scan
 const init = async domain => {
   // Nmap
+  await nmapScan("fulcrum.rocks");
 
   // Parse
   parseNvdPage(

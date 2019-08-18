@@ -1,15 +1,11 @@
 FROM node:alpine
 
-RUN apk add --no-cache \
-    nmap \ 
-    nmap-scripts --virtual deps \
+RUN apk --update --virtual deps add \
     python \
     build-base \
-    && apk del deps && rm -f /var/cache/apk/*
-
-RUN mkdir /nmap
-VOLUME ["/nmap"]
-WORKDIR /nmap
+    py-pip \
+    nmap \
+    nmap-scripts && rm -f /var/cache/apk/*
 
 COPY package.json .
 

@@ -1,3 +1,4 @@
 const { parseNvdPage } = require("./parser");
+const { nmapScan } = require("./nmap");
 
-module.exports = { parseNvdPage };
+module.exports = { parseNvdPage, nmapScan };
