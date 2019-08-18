@@ -14,7 +14,6 @@ const nmapWorker = async (domain, commandStr) => {
   const result = await new Promise((resolve, reject) => {
     operation.stdout.on("data", async data => {
       const dataStr = data.toString("utf-8");
-      console.log(dataStr);
       response.push({ data: dataStr });
     });
 
