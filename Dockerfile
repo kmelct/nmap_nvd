@@ -1,8 +1,12 @@
-FROM alpine:latest
+FROM node:alpine
 
-RUN apk --update add python py-pip nmap nmap-scripts && rm -f /var/cache/apk/*
-
-RUN pip install requests
+RUN apk add --no-cache \
+    nmap \ 
+    nmap-scripts --virtual deps \
+    python \
+    build-base \
+    && npm install \
+    && apk del deps && rm -f /var/cache/apk/*
 
 RUN mkdir /nmap
 VOLUME ["/nmap"]
@@ -10,4 +14,4 @@ WORKDIR /nmap
 
 COPY . .
 
-ENTRYPOINT ["python", "runner.py"]
+ENTRYPOINT ["node", "index.js"]
