@@ -21,7 +21,7 @@ const init = async domain => {
     result.push(res);
   }
 
-  console.log(result);
+  console.log(JSON.stringify(result));
 };
 
 init(domain);
