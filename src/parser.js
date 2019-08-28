@@ -3,7 +3,6 @@ const fetch = require("node-fetch");
 
 module.exports.parseNvdPage = async (url, tool) => {
   // Get html
-
   const res = await fetch(url);
   const html = await res.text();
 
@@ -28,7 +27,7 @@ module.exports.parseNvdPage = async (url, tool) => {
 
   const result = {
     title,
-    status,
+    status: status,
     description,
     solution: `Update or replace ${tool}. More info: ${pageUrl}`
   };
